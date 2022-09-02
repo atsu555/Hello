@@ -2,6 +2,7 @@ package com.example.hello
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.os.PersistableBundle
 
 import android.view.View
 import android.widget.Button
@@ -21,8 +22,19 @@ class MainActivity : AppCompatActivity() {
             txtResult.text = Date().toString()
         }
     }
-//    fun btnCurrentClick(v: View) {
-//        val txtResult = findViewById<TextView>(R.id.txtResult)
-//        txtResult.text = Date().toString()
-//    }
+
+    // 画面が破棄される前に状態を保存
+    override fun onSaveInstanceState(outState: Bundle) {
+        super.onSaveInstanceState(outState)
+        val txtResult = findViewById<TextView>(R.id.txtResult)
+        outState.putString("txtResult", txtResult.text.toString())
+    }
+
+    // 画面が復元される前に状態を取り出し
+    override fun onRestoreInstanceState(savedInstanceState: Bundle) {
+        super.onRestoreInstanceState(savedInstanceState)
+        val txtResult = findViewById<TextView>(R.id.txtResult)
+        txtResult.text = savedInstanceState.getString("txtResult")
+    }
+
 }
